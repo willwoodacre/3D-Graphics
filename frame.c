@@ -29,10 +29,10 @@ void writeFrame(frame_t *frame) {
   unsigned char bmpinfoheader[40] = {40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0, 24,0};
   unsigned char bmppad[3] = {0,0,0};
   
-  bmpfileheader[ 2] = (unsigned char)(filesize    );
-  bmpfileheader[ 3] = (unsigned char)(filesize>> 8);
-  bmpfileheader[ 4] = (unsigned char)(filesize>>16);
-  bmpfileheader[ 5] = (unsigned char)(filesize>>24);
+  bmpfileheader[ 2] = (unsigned char)(filesize);
+  bmpfileheader[ 3] = (unsigned char)(filesize >> 8);
+  bmpfileheader[ 4] = (unsigned char)(filesize >>16);
+  bmpfileheader[ 5] = (unsigned char)(filesize >>24);
   
   bmpinfoheader[ 4] = (unsigned char)(frame->width);
   bmpinfoheader[ 5] = (unsigned char)(frame->width >> 8);
@@ -55,17 +55,17 @@ void writeFrame(frame_t *frame) {
 
 frame_t *createFrame(int width, int height) {
   frame_t *frame = malloc(sizeof(frame_t));
-  uint8_t **red = malloc(width);
-  uint8_t **green = malloc(width);
-  uint8_t **blue = malloc(width);
+  uint8_t **red = malloc(width * sizeof(uint8_t *));
+  uint8_t **green = malloc(width * sizeof(uint8_t *));
+  uint8_t **blue = malloc(width * sizeof(uint8_t *));
 
   for(int i = 0; i < width; i++) {
     uint8_t *red_col = malloc(height);
     uint8_t *green_col = malloc(height);
     uint8_t *blue_col = malloc(height);
-    memset(red_col, 0, height);
-    memset(green_col, 0, height);
-    memset(blue_col, 0, height);
+    memset(red_col, 255, height);
+    memset(green_col, 255, height);
+    memset(blue_col, 255, height);
     red[i] = red_col;
     green[i] = green_col;
     blue[i] = blue_col;
