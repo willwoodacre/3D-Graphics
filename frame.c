@@ -16,9 +16,9 @@ void writeFrame(frame_t *frame) {
     for(int j = 0; j < frame->height; j++) {
       int x = i; 
       int y = (frame->height - 1) - j;
-      uint8_t r = frame->red[i][j];
-      uint8_t g = frame->green[i][j];
-      uint8_t b = frame->blue[i][j];
+      uint8_t r = frame->colour[i][j]->red;
+      uint8_t g = frame->colour[i][j]->green;
+      uint8_t b = frame->colour[i][j]->blue;
       img[(x+y * frame->width)*3+2] = (unsigned char)(r);
       img[(x+y * frame->width)*3+1] = (unsigned char)(g);
       img[(x+y * frame->width)*3+0] = (unsigned char)(b);
@@ -55,27 +55,23 @@ void writeFrame(frame_t *frame) {
 
 frame_t *createFrame(int width, int height) {
   frame_t *frame = malloc(sizeof(frame_t));
-  uint8_t **red = malloc(width * sizeof(uint8_t *));
-  uint8_t **green = malloc(width * sizeof(uint8_t *));
-  uint8_t **blue = malloc(width * sizeof(uint8_t *));
+  colour_t ***colour = malloc(width * sizeof(colour_t **));
 
   for(int i = 0; i < width; i++) {
-    uint8_t *red_col = malloc(height);
-    uint8_t *green_col = malloc(height);
-    uint8_t *blue_col = malloc(height);
-    memset(red_col, 255, height);
-    memset(green_col, 255, height);
-    memset(blue_col, 255, height);
-    red[i] = red_col;
-    green[i] = green_col;
-    blue[i] = blue_col;
+    colour_t **colour_col = malloc(height * sizeof(colour_t *));
+    for(int j = 0; j < height; j++) {
+      colour_t *colour_entry = malloc(sizeof(colour_t));
+      colour_entry->red = 255;
+      colour_entry->green = 255;
+      colour_entry->blue = 255;
+      colour_col[j] = colour_entry;
+    }
+    colour[i] = colour_col;
   }
 
   frame->width = width;
   frame->height = height;
-  frame->red = red;
-  frame->green = green;
-  frame->blue = blue;
+  frame->colour = colour;
 
   return frame;
 }
