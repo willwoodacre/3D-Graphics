@@ -82,3 +82,21 @@ void drawLine(co_ord_t *a, co_ord_t *b, colour_t *colour, frame_t *frame) {
     x += 1;
   }
 }
+
+void renderPoly(polygon_t *poly, colour_t *colour, frame_t *frame) {
+  //calculate the x and y coords of verts after perspective projection
+  co_ord_t coords[poly->no_verts];
+  for (int i = 0; i < poly->no_verts; i++) {
+    coords[i].x = F * poly->verts[0][i] / poly->verts[2][i]; 
+    coords[i].y = F * poly->verts[1][i] / poly->verts[2][i]; 
+  }
+
+  for (int i = 0; i < poly->no_verts; i++) {
+    for (int j = (i + 1); j < poly->no_verts; j++) {
+      if (poly->adj[i][j]) {
+        drawLine(&coords[i], &coords[j], colour, frame);
+      }
+    }
+  }
+}
+
