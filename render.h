@@ -1,3 +1,6 @@
+#ifndef RENDER_H
+#define RENDER_H
+
 #include "frame.h"
 #include "objects.h"
 
@@ -5,3 +8,5 @@
   (frame->colour[x][y] = col)
 
 void drawLine(co_ord_t *, co_ord_t *, colour_t *, frame_t *); 
+
+#endif

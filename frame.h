@@ -1,3 +1,6 @@
+#ifndef FRAME_H
+#define FRAME_H
+
 #include <stdint.h>
 
 typedef struct colour {
@@ -14,3 +17,5 @@ typedef struct frame {
 
 void writeFrame(frame_t *);
 frame_t *createFrame(int, int);
+
+#endif
