@@ -7,6 +7,36 @@ static int getOctant(co_ord_t *a, co_ord_t *b) {
   int dy = b->y - a->y;
   int octant = 0;
 
+  /*if (b->x > a->x) {
+    if (b->y > a->y) {
+      if ((b->y - a->y) < (b->x - a->x)) {
+        octant = 0;
+      } else {
+        octant = 1;
+      }
+    } else {
+      if ((a->y - b->y) < (b->x - a->x)) {
+        octant = 7;
+      } else {
+        octant = 6;
+      }
+    }
+  } else {
+    if (b->y > a->y) {
+      if ((b->y - a->y) < (a->x - b->x)) {
+        octant = 3;
+      } else {
+        octant = 2;
+      }
+    } else {
+      if ((a->y - b->y) < (a->x - b->x)) {
+        octant = 4;
+      } else {
+        octant = 5;
+      }
+    }
+  }*/
+
   if (dy < 0) {
     dx = -dx;
     dy = -dy;
@@ -66,10 +96,20 @@ void drawLine(co_ord_t *a, co_ord_t *b, colour_t *colour, frame_t *frame) {
   int p = 2 * dy - dx;
   while (x < bx) {
     // undo the transform applied to the coords
+    int framey = y * yMult;
+    int framex = x * xMult;
+    if (octant == 2 || octant == 6) {
+      framex *= -1;
+      framey *= -1;
+    }
     if (swap) {
-      drawPixel(y * yMult, x * xMult, colour, frame);
-    } else {
-      drawPixel(x * xMult, y * yMult, colour, frame);
+      int temp = framey;
+      framey = framex;
+      framex = temp;
+    }
+
+    if (framex >= 0 && framex < frame->width && framey >= 0 && framey < frame->height) {
+      drawPixel(framex, framey, colour, frame);
     }
 
     if (p >= 0) {
@@ -86,9 +126,11 @@ void drawLine(co_ord_t *a, co_ord_t *b, colour_t *colour, frame_t *frame) {
 void renderPoly(polygon_t *poly, colour_t *colour, frame_t *frame) {
   //calculate the x and y coords of verts after perspective projection
   co_ord_t coords[poly->no_verts];
+  int midx = frame->width / 2;
+  int midy = frame->height / 2;
   for (int i = 0; i < poly->no_verts; i++) {
-    coords[i].x = F * poly->verts[0][i] / poly->verts[2][i]; 
-    coords[i].y = F * poly->verts[1][i] / poly->verts[2][i]; 
+    coords[i].x = midx + (F * poly->verts[0][i] / poly->verts[2][i]);
+    coords[i].y = midy + (F * poly->verts[1][i] / poly->verts[2][i]);
   }
 
   for (int i = 0; i < poly->no_verts; i++) {

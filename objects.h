@@ -16,5 +16,6 @@ typedef struct polygon {
 
 polygon_t *createPoly(int no_verts, int verts[][no_verts], bool adj[][no_verts]);
 polygon_t *createCube(void);
+void printVerts(polygon_t *);
 
 #endif

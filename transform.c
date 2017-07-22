@@ -4,14 +4,14 @@
 
 static void apply_transformation(polygon_t *poly, double transform[4][4]) {
   //TODO: do non niave matrix multiplication
-  for(int i = 0; i < poly->no_verts; i++) {
-    for(int j = 0; j < 4; j++) {
+  for(int i = 0; i < 4; i++) {
+    for(int j = 0; j < poly->no_verts; j++) {
       int sum = 0;
       for(int k = 0; k < 4; k++) {
         //Go from double land to nice int land
         sum += (int)(transform[i][k] * poly->verts[k][j]);
       }
-      poly->verts[j][i] = sum;
+      poly->verts[i][j] = sum;
     }
   }
 }

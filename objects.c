@@ -9,7 +9,7 @@ int cube_verts[4][8] = {{0,0,0,0,1,1,1,1},
 
 bool cube_adj[8][8] =  {{0,1,1,0,1,0,0,0},
                         {1,0,0,1,0,1,0,0},
-                        {1,0,0,1,0,1,0,0},
+                        {1,0,0,1,0,0,1,0},
                         {0,1,1,0,0,0,0,1},
                         {1,0,0,0,0,1,1,0},
                         {0,1,0,0,1,0,0,1},
@@ -39,4 +39,15 @@ polygon_t *createPoly(int no_verts, int verts[][no_verts], bool adj[][no_verts])
   }
 
   return poly;
+}
+
+void printVerts(polygon_t *poly) {
+  printf("\n");
+  for (int j = 0; j < 3; j++) {
+    printf("[");
+    for (int i = 0; i < poly->no_verts; i++) {
+      printf("%d, ", poly->verts[j][i]);
+    }
+    printf("]\n");
+  }
 }
