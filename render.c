@@ -1,6 +1,13 @@
 #include "render.h"
 #include <stdbool.h>
 
+int perspective[4][4] = {{1,0,0,0},
+                         {0,1,0,0},
+                         {0,0,1,0},
+                         {0,0,0,1}};
+
+int perspective_pos[3] = {0,0,0};
+
 // gets the value of the octant the line between a and b is in
 static int getOctant(co_ord_t *a, co_ord_t *b) {
   int dx = b->x - a->x;
@@ -99,8 +106,16 @@ void renderPoly(polygon_t *poly, colour_t *colour, frame_t *frame) {
   int midx = frame->width / 2;
   int midy = frame->height / 2;
   for (int i = 0; i < poly->no_verts; i++) {
-    coords[i].x = midx + (F * poly->verts[0][i] / poly->verts[2][i]);
-    coords[i].y = midy + (F * poly->verts[1][i] / poly->verts[2][i]);
+    int vert[3];
+    for (int j = 0; j < 3; j++) {
+      int sum = 0;
+      for (int k = 0; k < 4; k++) {
+        sum += poly->verts[k][i] * perspective[j][k];
+      }
+      vert[j] = sum;
+    }
+    coords[i].x = midx + (F * vert[0] / vert[2]);
+    coords[i].y = midy + (F * vert[1] / vert[2]);
   }
 
   for (int i = 0; i < poly->no_verts; i++) {
@@ -112,3 +127,19 @@ void renderPoly(polygon_t *poly, colour_t *colour, frame_t *frame) {
   }
 }
 
+static void recalculatePerspective() {
+  for (int i = 0; i < 3; i++) {
+    int sum = 0;
+    for (int j = 0; j < 3; j++) {
+      sum += perspective[i][j] * perspective_pos[j];
+    }
+    perspective[i][3] = -1 * sum;
+  }
+}
+
+void movePerspective(int x, int y, int z) {
+  perspective_pos[0] += x;
+  perspective_pos[1] += y;
+  perspective_pos[2] += z;
+  recalculatePerspective();
+}
