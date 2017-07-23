@@ -7,36 +7,6 @@ static int getOctant(co_ord_t *a, co_ord_t *b) {
   int dy = b->y - a->y;
   int octant = 0;
 
-  /*if (b->x > a->x) {
-    if (b->y > a->y) {
-      if ((b->y - a->y) < (b->x - a->x)) {
-        octant = 0;
-      } else {
-        octant = 1;
-      }
-    } else {
-      if ((a->y - b->y) < (b->x - a->x)) {
-        octant = 7;
-      } else {
-        octant = 6;
-      }
-    }
-  } else {
-    if (b->y > a->y) {
-      if ((b->y - a->y) < (a->x - b->x)) {
-        octant = 3;
-      } else {
-        octant = 2;
-      }
-    } else {
-      if ((a->y - b->y) < (a->x - b->x)) {
-        octant = 4;
-      } else {
-        octant = 5;
-      }
-    }
-  }*/
-
   if (dy < 0) {
     dx = -dx;
     dy = -dy;
