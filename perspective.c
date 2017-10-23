@@ -1,6 +1,7 @@
 #include "perspective.h"
 
 // Recalculates the perspective structure after being transformed
+// by recalculating its co-ordinates from the transform
 static void recalculatePerspective(perspective_t *pers) {
   for (int i = 0; i < 3; i++) {
     int sum = 0;
@@ -34,6 +35,16 @@ perspective_t *createPerspective() {
   pers->pos[2] = 0;
 
   return pers;
+}
+
+// Frees the given perspective structure
+void destroyPerspective(perspective_t *pers) {
+  for (int i = 0; i < 4; i++) {
+    free(pers->trans[i]);
+  }
+  free(pers->trans);
+  free(pers->pos);
+  free(pers);
 }
 
 // Adds the given x, y and z to the co-ordinates of the given perspective

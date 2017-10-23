@@ -31,17 +31,32 @@ polygon_t *createPoly(int no_verts, int verts[][no_verts], bool adj[][no_verts])
   poly->no_verts = no_verts;
   poly->adj = malloc(no_verts * sizeof(bool *));
 
-  for(int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++) {
     poly->verts[i] = malloc(no_verts * sizeof(int));
     memcpy(poly->verts[i], &verts[i], no_verts * sizeof(int));
   }
 
-  for(int i = 0; i < no_verts; i++) {
+  for (int i = 0; i < no_verts; i++) {
     poly->adj[i] = malloc(no_verts * sizeof(bool));
     memcpy(poly->adj[i], &adj[i], no_verts * sizeof(bool));
   }
 
   return poly;
+}
+
+// Frees the given polygon structure
+void destroyPoly(polygon_t *poly) {
+  for (int i = 0; i < 4; i++) {
+    free(poly->verts[i]);
+  }
+  free(poly->verts);
+
+  for (int i = 0; i < poly->no_verts; i++) {
+    free(poly->adj[i]);
+  }
+  free(poly->adj);
+
+  free(poly);
 }
 
 // Prints the vertices of a polygon as a matrix of points

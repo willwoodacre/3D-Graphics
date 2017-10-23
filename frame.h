@@ -17,5 +17,6 @@ typedef struct frame {
 
 void writeFrame(frame_t *, char *);
 frame_t *createFrame(int, int);
+void destroyFrame(frame_t *);
 
 #endif

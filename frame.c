@@ -53,6 +53,7 @@ void writeFrame(frame_t *frame, char *filename) {
     fwrite(bmppad,1,(4-(frame->width*3)%4)%4,f);
   }
   fclose(f);
+  free(img);
 }
 
 // Allocates and returns a blank frame structure
@@ -78,4 +79,19 @@ frame_t *createFrame(int width, int height) {
   frame->colour = colour;
 
   return frame;
+}
+
+// Frees the memory used by the given frame ptr
+void destroyFrame(frame_t *frame) {
+  for(int i = 0; i < frame->width; i++) {
+    for(int j = 0; j < frame->height; j++) {
+      colour_t **col = frame->colour[i];
+      free(col[j]);
+    }
+    if (frame->colour[i]) {
+      free(frame->colour[i]);
+    }
+  }
+  free(frame->colour);
+  free(frame);
 }
