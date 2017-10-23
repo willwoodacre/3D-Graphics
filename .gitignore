@@ -1,0 +1,9 @@
+# Compiled Objects
+*.o
+renderer
+
+# Output images
+*.bmp
+
+# Vim
+*.swp
