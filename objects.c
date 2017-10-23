@@ -18,10 +18,13 @@ bool cube_adj[8][8] =  {{0,1,1,0,1,0,0,0},
 
 const int cube_no_verts = 8;
 
+// Allocates and returns a new polygon structure that is
+// a simple cube
 polygon_t *createCube() {
   return createPoly(cube_no_verts, cube_verts, &cube_adj);
 }
 
+// Allocates and returns a new polygon structure
 polygon_t *createPoly(int no_verts, int verts[][no_verts], bool adj[][no_verts]) {
   polygon_t *poly = malloc(sizeof(polygon_t));
   poly->verts = malloc(4 * sizeof(int *)); 
@@ -41,6 +44,7 @@ polygon_t *createPoly(int no_verts, int verts[][no_verts], bool adj[][no_verts])
   return poly;
 }
 
+// Prints the vertices of a polygon as a matrix of points
 void printVerts(polygon_t *poly) {
   printf("\n");
   for (int j = 0; j < 3; j++) {

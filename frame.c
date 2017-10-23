@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-void writeFrame(frame_t *frame) {
+// Saves a bmp image with name filename to the current dir
+// corresponding to the given frame struct
+void writeFrame(frame_t *frame, char *filename) {
   FILE *f;
   unsigned char *img = NULL;
   int filesize = 54 + 3 * frame->height * frame->width;
@@ -43,7 +45,7 @@ void writeFrame(frame_t *frame) {
   bmpinfoheader[10] = (unsigned char)(frame->height >>16);
   bmpinfoheader[11] = (unsigned char)(frame->height >>24);
   
-  f = fopen("frame.bmp","wb");
+  f = fopen(filename,"wb");
   fwrite(bmpfileheader,1,14,f);
   fwrite(bmpinfoheader,1,40,f);
   for(int i = 0; i < frame->height; i++) {
@@ -53,6 +55,8 @@ void writeFrame(frame_t *frame) {
   fclose(f);
 }
 
+// Allocates and returns a blank frame structure
+// of the given width and height
 frame_t *createFrame(int width, int height) {
   frame_t *frame = malloc(sizeof(frame_t));
   colour_t ***colour = malloc(width * sizeof(colour_t **));

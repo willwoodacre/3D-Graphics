@@ -25,14 +25,17 @@ static int getOctant(co_ord_t *a, co_ord_t *b) {
   return octant;
 }
 
+// Gives the x multiplier based on the given octant
 static int getXMult(int octant) {
   return (octant > 1 && octant < 6) ? -1 : 1;
 }
 
+// Gives the y multiplier based on the given octant
 static int getYMult(int octant) {
   return (octant > 3) ? -1 : 1;
 }
 
+// Gives the z multiplier based on the given octant
 static bool getSwap(int octant) {
   return (octant == 1 || octant == 2 || octant == 5 || octant == 6);
 }
@@ -111,6 +114,7 @@ void renderPoly(polygon_t *poly, perspective_t *pers, colour_t *colour, frame_t 
     coords[i].y = midy + (F * vert[1] / vert[2]);
   }
 
+  // Draw lines between adjacent vertices on the polygon
   for (int i = 0; i < poly->no_verts; i++) {
     for (int j = (i + 1); j < poly->no_verts; j++) {
       if (poly->adj[i][j]) {

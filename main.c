@@ -30,6 +30,6 @@ int main(int argc, char *argv[]) {
   move(cube1, 800, 0, 0);
   printVerts(cube1);
   renderPoly(cube1, pers, &col, frame);
-  writeFrame(frame);
+  writeFrame(frame, "frame.bmp");
   return 1;
 }

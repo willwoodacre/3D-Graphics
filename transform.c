@@ -22,6 +22,7 @@ static double getRad(double deg) {
   return rad;
 }
 
+// Adds the given co-ordinates to the polygons co-ordinates
 void move(polygon_t *poly, int x, int y, int z) {
   double transform[4][4] = {{1,0,0,x},
                            {0,1,0,y},
@@ -30,6 +31,7 @@ void move(polygon_t *poly, int x, int y, int z) {
   apply_transformation(poly, transform);
 }
 
+// Scales the polygon linearly by the given x, y and z factors
 void scale(polygon_t *poly, int x, int y, int z) {
   double transform[4][4] = {{x,0,0,0},
                            {0,y,0,0},
@@ -38,6 +40,7 @@ void scale(polygon_t *poly, int x, int y, int z) {
   apply_transformation(poly, transform);
 }
 
+// Rotate the polygon on the x axis relative to the origin
 void rotx(polygon_t *poly, double deg) {
   double rad = getRad(deg);
   double c = cos(rad);
@@ -49,6 +52,7 @@ void rotx(polygon_t *poly, double deg) {
   apply_transformation(poly, transform);
 }
 
+// Rotate the polygon on the y axis relative to the origin
 void roty(polygon_t *poly, double deg) {
   double rad = getRad(deg);
   double c = cos(rad);
@@ -60,6 +64,7 @@ void roty(polygon_t *poly, double deg) {
   apply_transformation(poly, transform);
 }
 
+// Rotate the polygon on the z axis relative to the origin
 void rotz(polygon_t *poly, double deg) {
   double rad = getRad(deg);
   double c = cos(rad);

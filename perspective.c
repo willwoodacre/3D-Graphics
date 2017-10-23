@@ -1,5 +1,6 @@
 #include "perspective.h"
 
+// Recalculates the perspective structure after being transformed
 static void recalculatePerspective(perspective_t *pers) {
   for (int i = 0; i < 3; i++) {
     int sum = 0;
@@ -10,6 +11,8 @@ static void recalculatePerspective(perspective_t *pers) {
   }
 }
 
+// Allocates and returns and perspective structure
+// Perspective given at co-ordinates (0,0,0)
 perspective_t *createPerspective() {
   perspective_t *pers = malloc(sizeof(perspective_t));
   pers->trans = malloc(4 * sizeof(double *));
@@ -33,6 +36,7 @@ perspective_t *createPerspective() {
   return pers;
 }
 
+// Adds the given x, y and z to the co-ordinates of the given perspective
 void movePerspective(perspective_t *pers, int x, int y, int z) {
   pers->pos[0] += x;
   pers->pos[1] += y;

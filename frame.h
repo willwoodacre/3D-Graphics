@@ -15,7 +15,7 @@ typedef struct frame {
   int height;
 } frame_t;
 
-void writeFrame(frame_t *);
+void writeFrame(frame_t *, char *);
 frame_t *createFrame(int, int);
 
 #endif
